@@ -1,0 +1,12 @@
+{
+  "name": "libcommunication",
+  "version": "1.0.0",
+  "description": "JavaScript implementation of libcommunication",
+  "main": "communication.js",
+  "repository": "https://github.com/staymarta/libcommunication",
+  "author": "Jared Allard <jared@staymarta.com>",
+  "license": "MIT",
+  "dependencies": {
+    "rabbot": "^1.1.0"
+  }
+}
