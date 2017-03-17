@@ -7,7 +7,7 @@
  **/
 
 const path   = require('path');
-const debug  = require('debug')('staymarta:communication')
+const debug  = require('debug')('staymarta:libcommunication')
 const os     = require('os');
 
 /**
