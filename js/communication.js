@@ -6,7 +6,8 @@
  * @version 1.0
  **/
 
-const debug  = require('./logger.js')('staymarta:communication')
+const path   = require('path');
+const debug  = require(path.join(__dirname, 'lib/logger.js'))('staymarta:communication')
 const os     = require('os');
 
 /**
