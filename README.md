@@ -8,7 +8,7 @@ To come...
 
 ## Languages
 
- * [JS](https://github.com/staymarta/libcommunication)
+ * [JS](https://github.com/staymarta/libcommunication/tree/master/js)
 
 ## License
 
