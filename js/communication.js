@@ -7,7 +7,7 @@
  **/
 
 const path   = require('path');
-const debug  = require(path.join(__dirname, 'lib/logger.js'))('staymarta:communication')
+const debug  = require('debug')('staymarta:communication')
 const os     = require('os');
 
 /**
