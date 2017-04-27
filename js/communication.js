@@ -108,7 +108,7 @@ class ServiceCommunication {
     let exchange = this.exchange
 
     // send reply
-    debug(`waiting for message type: '${type}' on '${this.service_queue}'`)
+    debug(`waiting for message type:'${type}' on queue:'${this.service_queue}'`)
     this.rabbit.handle({
       queue: this.service_queue,
       type: type,
@@ -127,7 +127,7 @@ class ServiceCommunication {
        * @param {String} [reason="GENERIC_ERROR"] - reason for the error
        * @param {Number} [code=1] - code for this error
        **/
-      msg.error = (reason, code) => {
+      msg.error = (reason = "GENERIC_ERROR", code = 1) => {
         msg.reply({
           error: reason,
           code: code
@@ -226,7 +226,7 @@ class ServiceCommunication {
     let topicFormat = type.split('.');
     let topic = `${topicFormat[0]}.${topicFormat[1]}`
 
-    debug(`sending message '${type}' on '${exchange}', waiting on '${this.unique_queue}', topic is '${topic}'`)
+    debug(`sending message type:'${type}' on exchange:'${exchange}', waiting on queue:'${this.unique_queue}', routingKey:'${topic}'`)
     this.rabbit.publish(exchange, {
       routingKey: topic,
       type: type,
