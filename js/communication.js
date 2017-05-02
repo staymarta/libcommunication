@@ -36,6 +36,8 @@ class ServiceCommunication {
    *
    * @constructor
    * @param  {String} [rabbitmq='rabbitmq'] RabbitMQ Host URL.
+   * @example <caption>Basic instancing</caption>
+   * const communication = require('libcommunication')
    * @return {Object} rabbot instance.
    */
   constructor(rabbitmq = 'rabbitmq') {
@@ -49,6 +51,12 @@ class ServiceCommunication {
    * connection.
    *
    * @param {String} servicename Service's name.
+   * @example <caption>Connecting as the 'users' service</caption>
+   * (async () => {
+   *  // Wrap in async function for await.
+   *  await communication.connect('users')
+   * })()
+   * // doing more stuff ...
    * @returns {Promise} when connected to rabbitmq.
    **/
   async connect(servicename) {
@@ -123,12 +131,23 @@ class ServiceCommunication {
   }
 
   /**
+   * Handle a message via callback via ~wait
+   * @callback handleAMessage
+   * @see ~msg
+   * @param {msg} msg libcommunication~msg object
+   */
+
+  /**
    * Wait for message of {type}
    *
    * @param {String} type type of message to handle.
-   * @param {Function} cb callback to handle message.
-   * @see https://github.com/arobson/rabbot#handle-options-handler-
-   * @returns {Object} Rabbot#handle
+   * @param {handleAMessage} cb callback to handle message.
+   * @see https://github.com/arobson/rabbot#handle-options-handler
+   * @example <caption>Waiting for a request to act on</caption>
+   * communication.wait('v1.users.get', msg => {
+   *  console.log('doing something with', msg);
+   * })
+   * @returns {Object} rabbot#handle
    **/
   wait(type, cb) {
     let timeout =  this.timeout;
@@ -143,18 +162,17 @@ class ServiceCommunication {
         rabbit: this.rabbit,
         service_id: this.service_id
       }
-    }, msg => {
+    },
+
+    /**
+     * @typedef {Object} msg
+     * @extends {rabbot.handle~message}
+     * @see https://github.com/arobson/rabbot#message-format
+     */
+    msg => {
       let request = msg.body.request;
       if(!request) return debug('notice', 'failed to access the request object. Is this a response?')
 
-      /**
-       * @name msg
-       * @type {Object}
-       * @kind {constant}
-       * @extends {rabbot.handle#message}
-       * @see https://github.com/arobson/rabbot#message-format
-       */
-      msg;
 
 
       /**
@@ -164,9 +182,13 @@ class ServiceCommunication {
        *
        * @param {String} [reason="GENERIC_ERROR"] - reason for the error
        * @param {Number} [code=1] - code for this error
+       * @example <caption>Basic error reported</caption>
+       * const msg = await communication.wait('v1.users.get')
+       * msg.error('ERROR_NOT_FOUND', 404)
+       * @returns {Promise} ...
        **/
       msg.error = (reason = "GENERIC_ERROR", code = 1) => {
-        msg.reply({
+        return msg.reply({
           error: reason,
           code: code
         })
@@ -179,7 +201,14 @@ class ServiceCommunication {
        * the gateway, otherwise you should generic publish your message.
        *
        * @param {Object} sendData - data to send.
-       * @see https://github.com/arobson/rabbot#publish-exchangename-options-connectionname-
+       * @see https://github.com/arobson/rabbot#publish-exchangename-options-connectionname
+       * @example <caption>Basic reply</caption>
+       * const msg = await communication.wait('v1.users.get')
+       * msg.reply({
+       *  username: 'jaredallard',
+       *  name: 'Jared Allard',
+       *  // etc ...
+       * })
        * @returns {Promise} rabbot#publish
        **/
       msg.reply = sendData => {
@@ -230,6 +259,11 @@ class ServiceCommunication {
    *
    * @param {String} type - message type.
    * @param {*} data - data to send
+   * @example <caption>Waiting and sending data, then getting a response</caption>
+   * communication.sendAndWait('v1.my.service',  { data: sent })
+   * .then(response => {
+   *   console.log('response', response);
+   * });
    * @returns {Promise} .then with the data recived by the temporary handler.
    **/
   sendAndWait(type, data) {
