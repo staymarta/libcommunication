@@ -29,7 +29,9 @@
 <a name="module_libcommunication..msg.error"></a>
 
 #### msg.error([reason], [code])
-Returns an error.
+Reports an error over RabbitMQ, allowing services to react to this error.
+This is handled as a critical error by the gateway, meaning it will kill
+off client connections when it recieves a error from a service.
 
 **Kind**: static method of [<code>msg</code>](#module_libcommunication..msg)  
 
@@ -41,7 +43,10 @@ Returns an error.
 <a name="module_libcommunication..msg.reply"></a>
 
 #### msg.reply(sendData) ⇒ <code>Promise</code>
-Simple message reply abstraction, taking just {sendData}
+Simple message reply abstraction, taking just {sendData}. This data is
+passed over RabbitMQ and sent back to whoever requested the data.
+This should only be used when you need to respond to one service, i.e
+the gateway, otherwise you should generic publish your message.
 
 **Kind**: static method of [<code>msg</code>](#module_libcommunication..msg)  
 **Returns**: <code>Promise</code> - rabbot#publish  
@@ -71,6 +76,8 @@ StayMarta's abstracted microservice protocol over RabbitMQ.
 <a name="new_module_libcommunication..ServiceCommunication_new"></a>
 
 #### new ServiceCommunication([rabbitmq])
+Specify how to connect to RabbitMQ & instance this.
+
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -79,7 +86,9 @@ StayMarta's abstracted microservice protocol over RabbitMQ.
 <a name="module_libcommunication..ServiceCommunication+connect"></a>
 
 #### serviceCommunication.connect(servicename) ⇒ <code>Promise</code>
-Connect to rabbitmq
+Connect to rabbitmq and setup our unique_queues, also some basic logic to
+handle connection failures, and other things related to RabbitMQ's
+connection.
 
 **Kind**: instance method of [<code>ServiceCommunication</code>](#module_libcommunication..ServiceCommunication)  
 **Returns**: <code>Promise</code> - when connected to rabbitmq.  
@@ -105,10 +114,11 @@ Wait for message of {type}
 <a name="module_libcommunication..ServiceCommunication+sendAndWait"></a>
 
 #### serviceCommunication.sendAndWait(type, data) ⇒ <code>Promise</code>
-Send a message with $type and wait for a reply
+Send a message with {type} and wait for a reply from a service based on the
+type provided.
 
 **Kind**: instance method of [<code>ServiceCommunication</code>](#module_libcommunication..ServiceCommunication)  
-**Returns**: <code>Promise</code> - .then/.progress, see rabbot.  
+**Returns**: <code>Promise</code> - .then with the data recived by the temporary handler.  
 
 | Param | Type | Description |
 | --- | --- | --- |

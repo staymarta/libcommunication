@@ -29,6 +29,8 @@ const os     = require('os');
  */
 class ServiceCommunication {
   /**
+   * Specify how to connect to RabbitMQ & instance this.
+   *
    * @constructor
    * @param  {String} [rabbitmq='rabbitmq'] RabbitMQ Host URL.
    * @return {Object} rabbot instance.
@@ -39,7 +41,9 @@ class ServiceCommunication {
   }
 
   /**
-   * Connect to rabbitmq
+   * Connect to rabbitmq and setup our unique_queues, also some basic logic to
+   * handle connection failures, and other things related to RabbitMQ's
+   * connection.
    *
    * @param {String} servicename Service's name.
    * @returns {Promise} when connected to rabbitmq.
@@ -151,7 +155,9 @@ class ServiceCommunication {
 
 
       /**
-       * Returns an error.
+       * Reports an error over RabbitMQ, allowing services to react to this error.
+       * This is handled as a critical error by the gateway, meaning it will kill
+       * off client connections when it recieves a error from a service.
        *
        * @param {String} [reason="GENERIC_ERROR"] - reason for the error
        * @param {Number} [code=1] - code for this error
@@ -164,7 +170,10 @@ class ServiceCommunication {
       }
 
       /**
-       * Simple message reply abstraction, taking just {sendData}
+       * Simple message reply abstraction, taking just {sendData}. This data is
+       * passed over RabbitMQ and sent back to whoever requested the data.
+       * This should only be used when you need to respond to one service, i.e
+       * the gateway, otherwise you should generic publish your message.
        *
        * @param {Object} sendData - data to send.
        * @see https://github.com/arobson/rabbot#publish-exchangename-options-connectionname-
@@ -213,11 +222,12 @@ class ServiceCommunication {
   }
 
   /**
-   * Send a message with $type and wait for a reply
+   * Send a message with {type} and wait for a reply from a service based on the
+   * type provided.
    *
    * @param {String} type - message type.
    * @param {*} data - data to send
-   * @returns {Promise} .then/.progress, see rabbot.
+   * @returns {Promise} .then with the data recived by the temporary handler.
    **/
   sendAndWait(type, data) {
     let timeout = 5000;
