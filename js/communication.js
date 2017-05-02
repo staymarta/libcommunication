@@ -1,29 +1,48 @@
-/**
- * (c) 2017 StayMarta
- *
- * RabbitMQ communication librarary.
- * @author Jared Allard <jaredallard@outlook.com>
- * @version 1.0
- **/
+/** @module libcommunication **/
 
-const path   = require('path');
+/**
+ * Node.JS path module
+ * @type {constant}
+ */
+const path   = require('path')
+
+/**
+ * debug library
+ * @type {constant}
+ */
 const debug  = require('debug')('staymarta:libcommunication')
+
+/**
+ * Node.JS os module.
+ * @type {constant}
+ */
 const os     = require('os');
 
 /**
- * @class
- **/
+ * StayMarta's abstracted microservice protocol over RabbitMQ.
+ *
+ * @copyright (c) 2017 StayMarta.
+ * @author Jared Allard <jared@staymarta.com>
+ * @version 1.0
+ * @license BSD-3-Clause
+ * @type {Class}
+ */
 class ServiceCommunication {
+  /**
+   * @constructor
+   * @param  {String} [rabbitmq='rabbitmq'] RabbitMQ Host URL.
+   * @return {Object} rabbot instance.
+   */
   constructor(rabbitmq = 'rabbitmq') {
     this.rabbot = require('rabbot')
-    this.rabbitmq = rabbitmq
+    return this.rabbitmq = rabbitmq
   }
 
   /**
    * Connect to rabbitmq
    *
-   * @param {String} [servicename] - If in service mode, what do we identify as?
-   * @returns {Promise} std node promise
+   * @param {String} servicename Service's name.
+   * @returns {Promise} when connected to rabbitmq.
    **/
   async connect(servicename) {
     this.exchange = 'v1';
@@ -97,11 +116,11 @@ class ServiceCommunication {
   }
 
   /**
-   * Wait for message type {type}
+   * Wait for message of {type}
    *
-   * @param {String} type - type of message to handle.
-   * @param {Function} cb - callback to handle message.
-   * @returns {Promise} handle promise
+   * @param {String} type type of message to handle.
+   * @param {Function} cb callback to handle message.
+   * @returns {Object} Rabbot#handle
    **/
   wait(type, cb) {
     let timeout =  this.timeout;
@@ -119,6 +138,15 @@ class ServiceCommunication {
     }, msg => {
       let request = msg.body.request;
       if(!request) return debug('notice', 'failed to access the request object. Is this a response?')
+
+      /**
+       * @name msg
+       * @type {Object}
+       * @kind {constant}
+       * @extends {rabbot.handle#message}
+       * @see https://github.com/arobson/rabbot#message-format
+       */
+      msg;
 
 
       /**

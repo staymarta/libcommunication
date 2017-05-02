@@ -9,5 +9,16 @@
   "dependencies": {
     "debug": "^2.6.3",
     "rabbot": "^1.1.0"
+  },
+  "scripts": {
+    "gen-docs": "node_modules/.bin/jsdoc2md -c jsdoc.json communication.js > docs/communication.md",
+    "docs": "npm run gen-docs"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-es2017": "^6.24.1",
+    "jsdoc-babel": "^0.3.0",
+    "jsdoc-to-markdown": "^3.0.0"
   }
 }
