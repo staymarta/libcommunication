@@ -1,24 +1,3 @@
-## Modules
-
-<dl>
-<dt><a href="#module_libcommunication">libcommunication</a></dt>
-<dd></dd>
-</dl>
-
-## Constants
-
-<dl>
-<dt><a href="#path">path</a> : <code>constant</code></dt>
-<dd><p>Node.JS path module</p>
-</dd>
-<dt><a href="#debug">debug</a> : <code>constant</code></dt>
-<dd><p>debug library</p>
-</dd>
-<dt><a href="#os">os</a> : <code>constant</code></dt>
-<dd><p>Node.JS os module.</p>
-</dd>
-</dl>
-
 <a name="module_libcommunication"></a>
 
 ## libcommunication
@@ -32,6 +11,9 @@
         * [.connect(servicename)](#module_libcommunication..ServiceCommunication+connect) ⇒ <code>Promise</code>
         * [.wait(type, cb)](#module_libcommunication..ServiceCommunication+wait) ⇒ <code>Object</code>
         * [.sendAndWait(type, data)](#module_libcommunication..ServiceCommunication+sendAndWait) ⇒ <code>Promise</code>
+    * [~path](#module_libcommunication..path) : <code>constant</code>
+    * [~debug](#module_libcommunication..debug) : <code>constant</code>
+    * [~os](#module_libcommunication..os) : <code>constant</code>
 
 <a name="module_libcommunication..msg"></a>
 
@@ -59,10 +41,11 @@ Returns an error.
 <a name="module_libcommunication..msg.reply"></a>
 
 #### msg.reply(sendData) ⇒ <code>Promise</code>
-Message reply override to include custom type and autorequest insertion
+Simple message reply abstraction, taking just {sendData}
 
 **Kind**: static method of [<code>msg</code>](#module_libcommunication..msg)  
 **Returns**: <code>Promise</code> - rabbot#publish  
+**See**: https://github.com/arobson/rabbot#publish-exchangename-options-connectionname-  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -112,6 +95,7 @@ Wait for message of {type}
 
 **Kind**: instance method of [<code>ServiceCommunication</code>](#module_libcommunication..ServiceCommunication)  
 **Returns**: <code>Object</code> - Rabbot#handle  
+**See**: https://github.com/arobson/rabbot#handle-options-handler-  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -131,21 +115,21 @@ Send a message with $type and wait for a reply
 | type | <code>String</code> | message type. |
 | data | <code>\*</code> | data to send |
 
-<a name="path"></a>
+<a name="module_libcommunication..path"></a>
 
-## path : <code>constant</code>
+### libcommunication~path : <code>constant</code>
 Node.JS path module
 
-**Kind**: global constant  
-<a name="debug"></a>
+**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  
+<a name="module_libcommunication..debug"></a>
 
-## debug : <code>constant</code>
+### libcommunication~debug : <code>constant</code>
 debug library
 
-**Kind**: global constant  
-<a name="os"></a>
+**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  
+<a name="module_libcommunication..os"></a>
 
-## os : <code>constant</code>
+### libcommunication~os : <code>constant</code>
 Node.JS os module.
 
-**Kind**: global constant  
+**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  

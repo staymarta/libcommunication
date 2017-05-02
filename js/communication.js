@@ -120,6 +120,7 @@ class ServiceCommunication {
    *
    * @param {String} type type of message to handle.
    * @param {Function} cb callback to handle message.
+   * @see https://github.com/arobson/rabbot#handle-options-handler-
    * @returns {Object} Rabbot#handle
    **/
   wait(type, cb) {
@@ -128,7 +129,7 @@ class ServiceCommunication {
 
     // send reply
     debug(`waiting for message type:'${type}' on queue:'${this.service_queue}'`)
-    this.rabbit.handle({
+    return this.rabbit.handle({
       queue: this.service_queue,
       type: type,
       context: { // isolate the context
@@ -163,9 +164,10 @@ class ServiceCommunication {
       }
 
       /**
-       * Message reply override to include custom type and autorequest insertion
+       * Simple message reply abstraction, taking just {sendData}
        *
        * @param {Object} sendData - data to send.
+       * @see https://github.com/arobson/rabbot#publish-exchangename-options-connectionname-
        * @returns {Promise} rabbot#publish
        **/
       msg.reply = sendData => {
