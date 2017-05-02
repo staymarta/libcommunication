@@ -3,18 +3,21 @@
 /**
  * Node.JS path module
  * @type {constant}
+ * @private
  */
 const path   = require('path')
 
 /**
  * debug library
  * @type {constant}
+ * @private
  */
 const debug  = require('debug')('staymarta:libcommunication')
 
 /**
  * Node.JS os module.
  * @type {constant}
+ * @private
  */
 const os     = require('os');
 
