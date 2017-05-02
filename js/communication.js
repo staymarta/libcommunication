@@ -147,7 +147,7 @@ class ServiceCommunication {
    * communication.wait('v1.users.get', msg => {
    *  console.log('doing something with', msg);
    * })
-   * @returns {Object} rabbot#handle
+   * @returns {Object} [rabbot#handle](https://github.com/arobson/rabbot#handle-options-handler)
    **/
   wait(type, cb) {
     let timeout =  this.timeout;
@@ -195,10 +195,11 @@ class ServiceCommunication {
       }
 
       /**
-       * Simple message reply abstraction, taking just {sendData}. This data is
+       * Simple message reply abstraction, taking just **sendData**. This data is
        * passed over RabbitMQ and sent back to whoever requested the data.
        * This should only be used when you need to respond to one service, i.e
-       * the gateway, otherwise you should generic publish your message.
+       * the gateway, otherwise you should generic publish your message with a
+       * future send method.
        *
        * @param {Object} sendData - data to send.
        * @see https://github.com/arobson/rabbot#publish-exchangename-options-connectionname
@@ -209,7 +210,7 @@ class ServiceCommunication {
        *  name: 'Jared Allard',
        *  // etc ...
        * })
-       * @returns {Promise} rabbot#publish
+       * @returns {Promise} [rabbot#publish](https://github.com/arobson/rabbot#publish-exchangename-options-connectionname)
        **/
       msg.reply = sendData => {
         const data = {};
@@ -254,7 +255,7 @@ class ServiceCommunication {
   }
 
   /**
-   * Send a message with {type} and wait for a reply from a service based on the
+   * Send a message with **type** and wait for a reply from a service based on the
    * type provided.
    *
    * @param {String} type - message type.

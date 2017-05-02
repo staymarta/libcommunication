@@ -72,7 +72,7 @@ connection.
 Wait for message of {type}
 
 **Kind**: instance method of [<code>ServiceCommunication</code>](#module_libcommunication..ServiceCommunication)  
-**Returns**: <code>Object</code> - rabbot#handle  
+**Returns**: <code>Object</code> - [rabbot#handle](https://github.com/arobson/rabbot#handle-options-handler)  
 **See**: https://github.com/arobson/rabbot#handle-options-handler  
 
 | Param | Type | Description |
@@ -89,7 +89,7 @@ communication.wait('v1.users.get', msg => {
 <a name="module_libcommunication..ServiceCommunication+sendAndWait"></a>
 
 #### serviceCommunication.sendAndWait(type, data) ⇒ <code>Promise</code>
-Send a message with {type} and wait for a reply from a service based on the
+Send a message with **type** and wait for a reply from a service based on the
 type provided.
 
 **Kind**: instance method of [<code>ServiceCommunication</code>](#module_libcommunication..ServiceCommunication)  
@@ -153,13 +153,14 @@ msg.error('ERROR_NOT_FOUND', 404)
 <a name="module_libcommunication..msg.reply"></a>
 
 #### msg.reply(sendData) ⇒ <code>Promise</code>
-Simple message reply abstraction, taking just {sendData}. This data is
+Simple message reply abstraction, taking just **sendData**. This data is
 passed over RabbitMQ and sent back to whoever requested the data.
 This should only be used when you need to respond to one service, i.e
-the gateway, otherwise you should generic publish your message.
+the gateway, otherwise you should generic publish your message with a
+future send method.
 
 **Kind**: static method of [<code>msg</code>](#module_libcommunication..msg)  
-**Returns**: <code>Promise</code> - rabbot#publish  
+**Returns**: <code>Promise</code> - [rabbot#publish](https://github.com/arobson/rabbot#publish-exchangename-options-connectionname)  
 **See**: https://github.com/arobson/rabbot#publish-exchangename-options-connectionname  
 
 | Param | Type | Description |
