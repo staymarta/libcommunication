@@ -11,9 +11,6 @@
         * [.connect(servicename)](#module_libcommunication..ServiceCommunication+connect) ⇒ <code>Promise</code>
         * [.wait(type, cb)](#module_libcommunication..ServiceCommunication+wait) ⇒ <code>Object</code>
         * [.sendAndWait(type, data)](#module_libcommunication..ServiceCommunication+sendAndWait) ⇒ <code>Promise</code>
-    * [~path](#module_libcommunication..path) : <code>constant</code>
-    * [~debug](#module_libcommunication..debug) : <code>constant</code>
-    * [~os](#module_libcommunication..os) : <code>constant</code>
 
 <a name="module_libcommunication..msg"></a>
 
@@ -125,21 +122,3 @@ type provided.
 | type | <code>String</code> | message type. |
 | data | <code>\*</code> | data to send |
 
-<a name="module_libcommunication..path"></a>
-
-### libcommunication~path : <code>constant</code>
-Node.JS path module
-
-**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  
-<a name="module_libcommunication..debug"></a>
-
-### libcommunication~debug : <code>constant</code>
-debug library
-
-**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  
-<a name="module_libcommunication..os"></a>
-
-### libcommunication~os : <code>constant</code>
-Node.JS os module.
-
-**Kind**: inner constant of [<code>libcommunication</code>](#module_libcommunication)  
